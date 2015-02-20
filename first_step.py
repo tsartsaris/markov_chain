@@ -122,19 +122,16 @@ for k,v in sampling_dict.iteritems(): # iterate σε όλα τα στοιχεί�
 """
      Από εδώ και πέρα κάνω καταμέτρηση των λύσεων για να δω πια υπερισχύει
 """
-for k,v in sampling_dict.items():
+or k,v in sampling_dict.items():
     v = ''.join(v)
     sampling_dict[k] = v
 
-D = Counter() # εδώ έχω καταμετρημένες τις λύσεις μου και βρίσκω ότι
-"""
- Υπερισχύει το μονοπάτι
- Counter({'BABDD': 5071, που είναι και αυτό που έχω από το excel μου
-"""
+D = Counter()
 
 for sequen in sampling_dict.itervalues():
     D[sequen] += 1
 
+deep_copy_D = {}
 
 import matplotlib.pyplot as plt
 
@@ -144,5 +141,23 @@ plt.plot(range(len(D)), D.values())
 plt.xticks(range(len(D)), D.keys())
 
 plt.show()
-# εδώ κανω ένα Plot τις τιμές μου. απλά για να έχω ένα visual για το τι έκανα
+for k,v in D.iteritems():
+    if v < 50: # σκοτώνω πολύ μικρές τιμές για να δείχνει το ιστόγραμμα τα labels στον άξονα Y
+        pass
+    else:
+        deep_copy_D[k]=v
+D = {}
+D = deep_copy_D
+import pylab as pl
+import numpy as np
+X = np.arange(len(D))
+pl.bar(X, D.values(), align='center', width=1)
+pl.xticks(X, D.keys())
+pl.xticks(rotation=45)
+
+ymax = max(D.values()) + 1
+pl.ylim(0, ymax)
+pl.show()
+
+
 print D
